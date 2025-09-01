@@ -1,0 +1,73 @@
+esphome:
+  name: humidity-sensor-dev
+  friendly_name: Humidity Sensor Dev
+  on_boot:
+    priority: 600
+    then:
+      - delay: 5s  # Wait for sensor and WiFi to stabilize
+      - component.update: dht_sensor  # Trigger DHT sensor reading
+      - delay: 2s  # Ensure sensor read completes
+      - lambda: |-
+          id(temp_sensor).publish_state(id(temp_sensor).state);
+          id(hum_sensor).publish_state(id(hum_sensor).state);
+      - delay: 8s  # Allow time to send data to Home Assistant
+      - deep_sleep.enter:
+          id: deep_sleep_control
+          sleep_duration: 21585s  # Sleep for ~6 hours (21,600s - 15s awake)
+
+esp32:
+  board: esp32dev  # ESP32 Dev Module (e.g., ESP32-DevKitC)
+  framework:
+    type: arduino
+
+# Deep sleep configuration
+deep_sleep:
+  id: deep_sleep_control
+  run_duration: 15s  # Awake for 15s to connect, read, and send data
+
+# WiFi settings
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+  domain: .local
+
+# Home Assistant API
+api:
+  encryption:
+    key: !secret filament_humidity_api_encryption_key
+
+# OTA updates
+ota:
+  platform: esphome
+  password: !secret filament_humidity_ota_password
+
+# Logger for Serial Monitor
+logger:
+  level: VERY_VERBOSE  # Enable detailed debugging logs
+
+# DHT22 sensor configuration
+sensor:
+  - platform: dht
+    id: dht_sensor
+    pin: GPIO5  # DHT22 data pin on GPIO5
+    model: DHT22
+    temperature:
+      id: temp_sensor
+      name: "Dev Module Temperature"
+      unit_of_measurement: "°C"
+      accuracy_decimals: 1
+      on_value:
+        - logger.log:
+            format: "Temperature: %.1f C sent"
+            args: ["x"]
+    humidity:
+      id: hum_sensor
+      name: "Dev Module Humidity"
+      unit_of_measurement: "%"
+      accuracy_decimals: 1
+      on_value:
+        - logger.log:
+            format: "Humidity: %.1f percent sent"
+            args: ["x"]
+    update_interval: 5s  # Read sensor every 5s while awake
