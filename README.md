@@ -3,16 +3,16 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![ESPHome](https://img.shields.io/badge/ESPHome-Compatible-blue)
 
-**Filament-Climate-Monitor** is a simple system to track temperature and humidity in 3D printer filament storage boxes. It keeps filament dry to avoid print issues. Using a DHT22 sensor, it sends data to Home Assistant every 15 seconds while awake. Built with ESPHome, it uses deep sleep to save power and is powered by a 5000mAh LiPo battery with a TP4056 charger module.
+**Filament-Climate-Monitor** is a system to monitor temperature and humidity in 3D printer filament storage boxes, ensuring filament stays dry for optimal printing. It uses a DHT22 sensor to send data to Home Assistant every 15 seconds while awake. Built with ESPHome, it features deep sleep for power efficiency and is powered by a 5000mAh LiPo battery with a TP4056 charger module.
 
 ## Project Description
 
-High humidity can ruin 3D printer filament, leading to bad prints. This project measures temperature and humidity with a DHT22 sensor and sends data to Home Assistant for monitoring or alerts. It uses an ESP32 Dev Module, runs on battery or USB, and wakes every 6 hours for 15 seconds to save power.
+High humidity can damage 3D printer filament, causing print failures. This project uses a DHT22 sensor to measure temperature and humidity, sending data to Home Assistant for monitoring or alerts. Running on an ESP32 Dev Module, it wakes every 6 hours for 15 seconds to conserve power, operating on battery or USB.
 
 ### Features
-* Tracks temperature and humidity with DHT22.
+* Monitors temperature and humidity with DHT22.
 * Sends data to Home Assistant every 15 seconds while awake.
-* Simple setup with ESPHome and OTA updates.
+* Easy setup with ESPHome and OTA updates.
 * Deep sleep for extended battery life with a 5000mAh LiPo.
 
 ### Project Images
@@ -21,7 +21,7 @@ High humidity can ruin 3D printer filament, leading to bad prints. This project 
 ![Project Overview](images/project-overview.jpg)
 ![Wiring Diagram](images/wiring-diagram.jpg)
 
-(Placeholder for images. Replace with actual paths, e.g., /images/project-overview.jpg, after uploading.)
+(Placeholder for images. Replace with actual paths, e.g., /images/project-overview.jpg, after uploading to the repository.)
 
 ## Required Materials
 * ESP32 Dev Module (~$5-10).
@@ -53,12 +53,12 @@ High humidity can ruin 3D printer filament, leading to bad prints. This project 
 
 4. Check Logs: Monitor the device:
    - esphome logs filament-humidity-sensor.yaml
-   - Expected logs (example, 20:08, Sep 1, 2025):
-     * [20:08:10][D][wifi]: Connected to WiFi!
-     * [20:08:12][D][api]: Connected to Home Assistant!
-     * [20:08:15][D][dht:049]: Got Temperature=28.8°C Humidity=71.5% (every ~15s while awake)
-     * [20:08:15][D][sensor]: Temperature: 28.8 C sent
-     * [20:08:15][D][sensor]: Humidity: 71.5 percent sent
+   - Expected logs (example, 20:16, Sep 1, 2025):
+     * [20:16:10][D][wifi]: Connected to WiFi!
+     * [20:16:12][D][api]: Connected to Home Assistant!
+     * [20:16:15][D][dht:049]: Got Temperature=28.8°C Humidity=71.5% (every ~15s while awake)
+     * [20:16:15][D][sensor]: Temperature: 28.8 C sent
+     * [20:16:15][D][sensor]: Humidity: 71.5 percent sent
 
 5. Verify Home Assistant: In Home Assistant, go to Settings > Devices & Services > Integrations > ESPHome. Check humidity-sensor-dev device. Verify sensor.dev_module_temperature and sensor.dev_module_humidity in Developer Tools > States (updates every ~15s while awake).
 
@@ -66,14 +66,14 @@ High humidity can ruin 3D printer filament, leading to bad prints. This project 
 
 Connect the components as follows:
 
-* DHT22 Sensor:
+* **DHT22 Sensor**:
   * VCC to ESP32 3.3V (or 5V, check datasheet).
   * Data to ESP32 GPIO5.
   * GND to ESP32 GND.
   * Pull-up resistor (4.7kΩ–10kΩ) between Data and VCC.
   * NC pin: Leave unconnected.
 
-* Power (LiPo Battery with TP4056):
+* **Power (LiPo Battery with TP4056)**:
   * LiPo Positive (+) to TP4056 B+.
   * LiPo Negative (-) to TP4056 B-.
   * TP4056 OUT+ to ESP32 VIN.
@@ -83,15 +83,15 @@ Connect the components as follows:
 
 **Schematic**:
 
-DHT22            ESP32 (Dev Module)         TP4056           LiPo Battery
-+-------+        +-----------------+  +-------+         +-------+
-| VCC   | -----> | 3.3V            |  | OUT+  | -----> | VIN   |
-| Data  | -----> | GPIO5           |  | OUT-  | -----> | GND   |
-| GND   | -----> | GND             |  | IN+   | -----> | USB 5V+ |
-| NC    | (not connected)       |  | IN-   | -----> | USB GND |
-+-------+        +-----------------+  | B+    | -----> | Battery + |
-(4.7kΩ–10kΩ resistor between Data and VCC) | B-    | -----> | Battery - |
-                                     +-------+         +-------+
+    DHT22                ESP32 (Dev Module)    TP4056              LiPo Battery
+    +----------------+   +----------------+    +----------------+   +----------------+
+    | VCC            |-->| 3.3V           |    | OUT+           |-->| VIN            |
+    | Data           |-->| GPIO5          |    | OUT-           |-->| GND            |
+    | GND            |-->| GND            |    | IN+            |-->| USB 5V+        |
+    | NC             |   | (not connected)|    | IN-            |-->| USB GND        |
+    +----------------+   +----------------+    | B+             |-->| Battery +      |
+    (4.7kΩ–10kΩ resistor between Data and VCC) | B-             |-->| Battery -      |
+                                              +----------------+   +----------------+
 
 ## Power Consumption and Battery Life
 * Power Consumption:
@@ -131,5 +131,5 @@ DHT22            ESP32 (Dev Module)         TP4056           LiPo Battery
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-* Built with ESPHome[](https://esphome.io/) for Home Assistant integration.
+* Built with ESPHome (https://esphome.io/) for Home Assistant integration.
 * Inspired by DIY IoT projects for filament storage.
