@@ -18,11 +18,11 @@ High humidity can damage 3D printer filament, causing print failures. This proje
 ### Project Images
 (Upload photos of the device and wiring to the images/ folder in this repository and update the links below.)
 
-## Images
-![Project Overview](images/box.jpg)
-![](images/device.jpg)
-![](images/IMG_1444.jpg)
-![](images/open_box.jpg)
+## Project Overview
+<img src="box.jpg" alt="box" width="300" />
+<img src="device.jpg" alt="device" width="300" />
+<img src="IMG_1444.jpg" width="300" />
+<img src="open_box.jpg" alt="box open" width="300" />
 
 (Placeholder for images. Replace with actual paths, e.g., /images/project-overview.jpg, after uploading to the repository.)
 
